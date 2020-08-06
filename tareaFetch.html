@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea Fetch con pokeapi</title>
+    <link rel="stylesheet" href="assets/stilo.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
+        integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+</head>
+
+<body class="body">
+    <div class="container cuerpo">
+        <h1 class="text-center display-3">Tarea Fetch con <img class="imgtitulo" src="assets/imgs/pokeapi.png" alt="">
+        </h1>
+    </div>
+    <div class="container contenido">
+        <div class="row">
+            <div class="col">
+                <div id="contenido" class="card-body text-center">
+                </div>
+            </div>
+            <div class="col">
+                <div id="contenido2" class="card-body text-center">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="text-center">
+            <button onclick="consultarPokemon()" class="btn btn-dark">Nuevo Pokemon</button>
+            <br>
+            <br>
+            <form class="input-group mb-3">
+                <input id="buscarPokemon" type="text" class="form-control" placeholder="Busca tu Pokemon preferido"
+                    aria-label="Buscar pokemon" name="buscarPokemon">
+                <div class="input-group-append">
+                    <button onclick="buscando()" class="btn btn-dark" type="button" id="button-addon2">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        contenido = document.getElementById('contenido');
+        contenido2 = document.getElementById('contenido2');
+        buscar = document.getElementById('buscarPokemon');
+
+        nuevoPokemon = (numId) => {
+            fetch(`https://pokeapi.co/api/v2/pokemon/${numId}`)
+                .then(link => link.json())
+
+                .then(pokemon => {
+                    console.log(pokemon);
+                    contenido.innerHTML = `
+                    <img src="${pokemon.sprites.front_default}" class="rounded-circle" alt="" height="200px" width="200px">
+                    <h2 class = "text-capitalize">${pokemon.name}</h2>
+                    <h4>Habilidad: ${pokemon.abilities[0].ability.name}</h4>
+                    <h4>Tipo: ${pokemon.types[0].type.name}</h4>
+                    <h4>Experiencia: ${pokemon.base_experience}</h4>
+                    `;
+                })
+                .catch((error) => {
+                    contenido.innerHTML = `
+                    <h3>    <img class= 'alerta' src="assets/imgs/alerta.png" alt=""><br>Error en la respuesta del servidor: ${error}, <br> por favor verifique los datos</h3>`;
+                })
+
+        }
+        nuevoPokemon2 = (numId2) => {
+            fetch(`https://pokeapi.co/api/v2/pokemon/${numId2}`)
+                .then(link => link.json())
+
+                .then(pokemon => {
+                    console.log(pokemon);
+                    contenido2.innerHTML = `
+                    <img src="${pokemon.sprites.front_default}" class="rounded-circle" alt="" height="200px" width="200px">
+                    <h2 class = "text-capitalize">${pokemon.name}</h2>
+                    <h4>Habilidad: ${pokemon.abilities[0].ability.name}</h4>
+                    <h4>Tipo: ${pokemon.types[0].type.name}</h4>
+                    <h4>Experiencia: ${pokemon.base_experience}</h4>
+                    `;
+                })
+                .catch((error) => {
+                    contenido.innerHTML = `
+                    <h3><img class= 'alerta' src="assets/imgs/alerta.png" alt=""><br>Error en la respuesta del servidor: ${error}, <br> por favor verifique los datos</h3>`;
+                })
+
+        }
+
+        function consultarPokemon() {
+            numId = Math.round(Math.random() * 807)
+            numId2 = Math.round(Math.random() * 807)
+            nuevoPokemon(numId);
+            nuevoPokemon2(numId2);
+
+        }
+
+        function buscando() {
+            nuevoPokemon(buscar.value);
+        }
+        consultarPokemon()
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
+        integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
